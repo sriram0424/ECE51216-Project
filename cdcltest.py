@@ -140,7 +140,7 @@ def cdcl(clauses, assignment, num_vars):
 
 
     #unit propogate
-    clauses, assignment, conflict = unit_propagate(current_clauses, assignment)
+    clauses, assignment, conflict = unit_propagate(clauses, assignment)
 
     if conflict:
         return None
