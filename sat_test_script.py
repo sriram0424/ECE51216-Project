@@ -6,8 +6,6 @@ test_folder = 'UUF50.218.1000'
 correct_result = 'SAT'
 test_solver = 'sat_solver_without_heuristics.py'
 
-#test_path = test_folder + '\\' + test_type + '-0'
-
 folder = Path(test_folder)
 
 track = 0
