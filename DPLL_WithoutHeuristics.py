@@ -106,13 +106,12 @@ def solve_dimacs_cnf(dimacs_text):
         print("RESULT:SAT")
         assignment_output = []
         for var in range(1, num_vars + 1):
-            if var in [abs(l) for l in result]:
-                value = 1 if var in result else 0
-            else:
-                value = 1  # Unassigned → treat as True
+            value = 1 if var in result else 0
             assignment_output.append(f"{var}={value}")
         print("ASSIGNMENT:" + " ".join(assignment_output))
 
+
+'''
 # Random CNF Generator
 def generate_random_3sat(num_vars=50, num_clauses=200):
     clauses = []
@@ -145,3 +144,4 @@ if __name__ == "__main__":
 
     end = time.time()
     print(f"Runtime: {end - start:.6f} seconds")
+'''
