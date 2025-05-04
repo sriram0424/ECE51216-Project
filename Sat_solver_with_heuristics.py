@@ -3,6 +3,7 @@ import time
 import random
 import os
 
+
 # Parser for DIMACS input
 
 def parse_dimacs(file_content):
@@ -10,7 +11,7 @@ def parse_dimacs(file_content):
     num_vars = 0
     for line in file_content.strip().split('\n'):
         line = line.strip()
-        if line == '' or line.startswith('c'):
+        if line == '' or line.startswith('c') or line.startswith('%'):
             continue
         if line.startswith('p'):
             _, _, num_vars, _ = line.split()
@@ -20,6 +21,7 @@ def parse_dimacs(file_content):
             clause = [lit for lit in clause if lit != 0]
             clauses.append(clause)
     return clauses, num_vars
+
 
 # Unit Propagation (simplifies unit clauses with only one literal)
 
@@ -38,6 +40,7 @@ def unit_propagate(clauses, assignment):
                 return None
     return clauses, assignment
 
+
 # Clause Simplifciation (once literal assigned to true, removes clauses already assigned)
 def simplify(clauses, lit):
     new_clauses = []
@@ -53,13 +56,50 @@ def simplify(clauses, lit):
             new_clauses.append(clause)
     return new_clauses
 
-#Conflict Clause analysis and backtracking (heuristics)
+
+
+"""Implements the MOM (Maximum Occurrence of clauses of Minimum size) heuristic to decide the 
+literal to branch on"""
+
+def decide_literal(clauses, assignment):
+    literal_assignments = [abs(l) for l in assignment]
+    min_size = min((len(c) for c in clauses if c), default=0)
+    counts = {}
+
+    for clause in clauses:
+        if len(clause) == min_size:
+            for lit in clause:
+                if abs(lit) not in literal_assignments:
+                    if lit not in counts and -lit not in counts:
+                        counts[lit] = 0
+                        counts[-lit] = 0
+                    elif lit not in counts:
+                        counts[lit] = 0
+                    counts[lit] += 1
+
+    if not counts:
+        return None
+
+
+    vars = [abs(lit) for lit in counts]
+    score_vals = []
+
+    for lit in vars:
+        num_uncomp = counts[lit]
+        num_comp = counts[-lit]
+        score_vals.append(((num_uncomp + num_comp)) * (2 ** min_size) + (num_uncomp * num_comp))
+
+    lit_choice = vars[score_vals.index(max(score_vals))]
+    return lit_choice
+
+# Conflict Clause analysis and backtracking (heuristics)
 # Pure Literal Elimination from regular DPLL removed due to clause learning implementation
 
 def analyze_conflict(decision_stack):
     if decision_stack:
         return [-decision_stack[-1]]  # Block last decision
     return []
+
 
 def backtrack(decision_stack, assignment, decision_levels, learned_clause):
     levels = []
@@ -73,13 +113,18 @@ def backtrack(decision_stack, assignment, decision_levels, learned_clause):
     levels.sort()
     return max(levels[:-1])  # second-highest level
 
+
 # CDCL-based DPLL solver with conflict-driven clause learning and non-chronological backtracking
 
-def dpll_cdcl(clauses, assignment, decision_stack=[], decision_levels={}, level=0, learned_clauses=set()):
+def dpll_cdcl(clauses, assignment, decision_stack=[], decision_levels={}, level=0,
+              learned_clauses=set()):
+
+
+
     # Perform unit propagation on the current clause set and assignment
     result = unit_propagate(clauses, assignment.copy())
-    
-    #If conflict detected during propagation
+
+    # If conflict detected during propagation
     if result is None:
         if not decision_stack:
             return None  # No more decisions to backtrack then UNSAT
@@ -109,7 +154,7 @@ def dpll_cdcl(clauses, assignment, decision_stack=[], decision_levels={}, level=
             if decision_levels.get(abs(lit), 0) <= bj_level:
                 new_decision_stack.append(lit)
 
-        # Try assigning learned clause 
+        # Try assigning learned clause
         if not learned_clause:
             return None  # return none if there is nothing to learn
 
@@ -117,9 +162,10 @@ def dpll_cdcl(clauses, assignment, decision_stack=[], decision_levels={}, level=
         new_assignment.add(new_lit)
         new_decision_stack.append(new_lit)
         new_decision_levels[abs(new_lit)] = bj_level + 1
-        
+
         # Recurse with updated state
-        return dpll_cdcl(clauses, new_assignment, new_decision_stack, new_decision_levels, bj_level + 1, learned_clauses)
+        return dpll_cdcl(clauses, new_assignment, new_decision_stack, new_decision_levels,
+                         bj_level + 1, learned_clauses)
 
     clauses, assignment = result
 
@@ -127,25 +173,30 @@ def dpll_cdcl(clauses, assignment, decision_stack=[], decision_levels={}, level=
         return assignment  # All clauses satisfied
 
     # Choose an unassigned literal and try both True and False assignments (decision branching)
-    for clause in clauses:
-        for lit in clause:
-            if lit not in assignment and -lit not in assignment:
-                for val in [lit, -lit]:
-                    new_assignment = set(assignment)
-                    new_assignment.add(val)
-                    new_clauses = simplify(clauses, val)
-                    if new_clauses is None:
-                        continue
-                    new_stack = decision_stack + [val]
-                    new_levels = dict(decision_levels)
-                    new_levels[abs(val)] = level + 1
-                    result = dpll_cdcl(new_clauses, new_assignment, new_stack, new_levels, level + 1, learned_clauses.copy())
-                    if result is not None:
-                        return result
-                return None
+    lit = decide_literal(clauses, assignment)
+
+
+    if lit == None:
+        return assignment
+    if lit not in assignment and -lit not in assignment:
+        for val in [lit, -lit]:
+            new_assignment = set(assignment)
+            new_assignment.add(val)
+            new_clauses = simplify(clauses, val)
+            if new_clauses is None:
+                continue
+            new_stack = decision_stack + [val]
+            new_levels = dict(decision_levels)
+            new_levels[abs(val)] = level + 1
+            result = dpll_cdcl(new_clauses, new_assignment, new_stack, new_levels,
+                               level + 1, learned_clauses.copy())
+            if result is not None:
+                return result
+        return None
     return assignment
 
-#Solving dimacs formatted input
+
+# Solving dimacs formatted input
 def solve_dimacs_cnf(dimacs_text):
     clauses, num_vars = parse_dimacs(dimacs_text)
     result = dpll_cdcl(clauses, set())
@@ -159,8 +210,10 @@ def solve_dimacs_cnf(dimacs_text):
             assignment_output.append(f"{var}={value}")
         print("ASSIGNMENT:" + " ".join(assignment_output))
 
-'''
-# --- Optional: Random CNF generator ---
+
+
+# --- Main Entry Point ---
+# Random CNF Generator
 def generate_random_3sat(num_vars=50, num_clauses=200):
     clauses = []
     for _ in range(num_clauses):
@@ -171,10 +224,7 @@ def generate_random_3sat(num_vars=50, num_clauses=200):
             clause.add(lit)
         clauses.append(" ".join(map(str, clause)) + " 0")
     header = f"p cnf {num_vars} {num_clauses}"
-    return "\n".join(["c Random 3-SAT benchmark", header] + clauses)
-
-# --- Main Entry Point ---
-    
+    return "\n".join(["c Random 3-SAT benchmark"] + [header] + clauses)
 
 if __name__ == "__main__":
     start = time.time()
@@ -188,10 +238,10 @@ if __name__ == "__main__":
             dimacs_text = f.read()
     else:
         print("[Info] Using random generated variables, no CNF file")
-        dimacs_text = generate_random_3sat(50, 200)
+        dimacs_text = generate_random_3sat(200, 800)
 
     solve_dimacs_cnf(dimacs_text)
 
     end = time.time()
     print(f"Runtime: {end - start:.6f} seconds")
-'''
+
