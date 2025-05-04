@@ -3,7 +3,6 @@ import time
 import random
 import os
 
-
 # Parser for DIMACS input
 
 def parse_dimacs(file_content):
@@ -11,7 +10,7 @@ def parse_dimacs(file_content):
     num_vars = 0
     for line in file_content.strip().split('\n'):
         line = line.strip()
-        if line == '' or line.startswith('c') or line.startswith('%'):
+        if line == '' or line.startswith('c'):
             continue
         if line.startswith('p'):
             _, _, num_vars, _ = line.split()
@@ -21,7 +20,6 @@ def parse_dimacs(file_content):
             clause = [lit for lit in clause if lit != 0]
             clauses.append(clause)
     return clauses, num_vars
-
 
 # Unit Propagation (simplifies unit clauses with only one literal)
 
@@ -40,7 +38,6 @@ def unit_propagate(clauses, assignment):
                 return None
     return clauses, assignment
 
-
 # Clause Simplifciation (once literal assigned to true, removes clauses already assigned)
 def simplify(clauses, lit):
     new_clauses = []
@@ -56,50 +53,13 @@ def simplify(clauses, lit):
             new_clauses.append(clause)
     return new_clauses
 
-
-
-"""Implements the MOM (Maximum Occurrence of clauses of Minimum size) heuristic to decide the 
-literal to branch on"""
-
-def decide_literal(clauses, assignment):
-    literal_assignments = [abs(l) for l in assignment]
-    min_size = min((len(c) for c in clauses if c), default=0)
-    counts = {}
-
-    for clause in clauses:
-        if len(clause) == min_size:
-            for lit in clause:
-                if abs(lit) not in literal_assignments:
-                    if lit not in counts and -lit not in counts:
-                        counts[lit] = 0
-                        counts[-lit] = 0
-                    elif lit not in counts:
-                        counts[lit] = 0
-                    counts[lit] += 1
-
-    if not counts:
-        return None
-
-
-    vars = [abs(lit) for lit in counts]
-    score_vals = []
-
-    for lit in vars:
-        num_uncomp = counts[lit]
-        num_comp = counts[-lit]
-        score_vals.append(((num_uncomp + num_comp)) * (2 ** min_size) + (num_uncomp * num_comp))
-
-    lit_choice = vars[score_vals.index(max(score_vals))]
-    return lit_choice
-
-# Conflict Clause analysis and backtracking (heuristics)
+#Conflict Clause analysis and backtracking (heuristics)
 # Pure Literal Elimination from regular DPLL removed due to clause learning implementation
 
 def analyze_conflict(decision_stack):
     if decision_stack:
         return [-decision_stack[-1]]  # Block last decision
     return []
-
 
 def backtrack(decision_stack, assignment, decision_levels, learned_clause):
     levels = []
@@ -113,18 +73,13 @@ def backtrack(decision_stack, assignment, decision_levels, learned_clause):
     levels.sort()
     return max(levels[:-1])  # second-highest level
 
-
 # CDCL-based DPLL solver with conflict-driven clause learning and non-chronological backtracking
 
-def dpll_cdcl(clauses, assignment, decision_stack=[], decision_levels={}, level=0,
-              learned_clauses=set()):
-
-
-
+def dpll_cdcl(clauses, assignment, decision_stack=[], decision_levels={}, level=0, learned_clauses=set()):
     # Perform unit propagation on the current clause set and assignment
     result = unit_propagate(clauses, assignment.copy())
-
-    # If conflict detected during propagation
+    
+    #If conflict detected during propagation
     if result is None:
         if not decision_stack:
             return None  # No more decisions to backtrack then UNSAT
@@ -154,7 +109,7 @@ def dpll_cdcl(clauses, assignment, decision_stack=[], decision_levels={}, level=
             if decision_levels.get(abs(lit), 0) <= bj_level:
                 new_decision_stack.append(lit)
 
-        # Try assigning learned clause
+        # Try assigning learned clause 
         if not learned_clause:
             return None  # return none if there is nothing to learn
 
@@ -162,10 +117,9 @@ def dpll_cdcl(clauses, assignment, decision_stack=[], decision_levels={}, level=
         new_assignment.add(new_lit)
         new_decision_stack.append(new_lit)
         new_decision_levels[abs(new_lit)] = bj_level + 1
-
+        
         # Recurse with updated state
-        return dpll_cdcl(clauses, new_assignment, new_decision_stack, new_decision_levels,
-                         bj_level + 1, learned_clauses)
+        return dpll_cdcl(clauses, new_assignment, new_decision_stack, new_decision_levels, bj_level + 1, learned_clauses)
 
     clauses, assignment = result
 
@@ -173,30 +127,25 @@ def dpll_cdcl(clauses, assignment, decision_stack=[], decision_levels={}, level=
         return assignment  # All clauses satisfied
 
     # Choose an unassigned literal and try both True and False assignments (decision branching)
-    lit = decide_literal(clauses, assignment)
-
-
-    if lit == None:
-        return assignment
-    if lit not in assignment and -lit not in assignment:
-        for val in [lit, -lit]:
-            new_assignment = set(assignment)
-            new_assignment.add(val)
-            new_clauses = simplify(clauses, val)
-            if new_clauses is None:
-                continue
-            new_stack = decision_stack + [val]
-            new_levels = dict(decision_levels)
-            new_levels[abs(val)] = level + 1
-            result = dpll_cdcl(new_clauses, new_assignment, new_stack, new_levels,
-                               level + 1, learned_clauses.copy())
-            if result is not None:
-                return result
-        return None
+    for clause in clauses:
+        for lit in clause:
+            if lit not in assignment and -lit not in assignment:
+                for val in [lit, -lit]:
+                    new_assignment = set(assignment)
+                    new_assignment.add(val)
+                    new_clauses = simplify(clauses, val)
+                    if new_clauses is None:
+                        continue
+                    new_stack = decision_stack + [val]
+                    new_levels = dict(decision_levels)
+                    new_levels[abs(val)] = level + 1
+                    result = dpll_cdcl(new_clauses, new_assignment, new_stack, new_levels, level + 1, learned_clauses.copy())
+                    if result is not None:
+                        return result
+                return None
     return assignment
 
-
-# Solving dimacs formatted input
+#Solving dimacs formatted input
 def solve_dimacs_cnf(dimacs_text):
     clauses, num_vars = parse_dimacs(dimacs_text)
     result = dpll_cdcl(clauses, set())
@@ -210,10 +159,449 @@ def solve_dimacs_cnf(dimacs_text):
             assignment_output.append(f"{var}={value}")
         print("ASSIGNMENT:" + " ".join(assignment_output))
 
+#Example Input
+dimacs_text = """
+c SAT: UNSAT EXAMPLE
+p cnf 100  430 
+ 64 46 -26 0
+-31 65 87 0
+12 -15 -2 0
+-13 84 38 0
+79 4 -40 0
+-55 3 11 0
+-73 65 10 0
+-68 -62 64 0
+-56 -3 21 0
+-28 -48 -54 0
+32 -16 96 0
+-87 69 94 0
+45 -96 -5 0
+-45 21 -97 0
+-15 42 -14 0
+-61 -41 -90 0
+-86 -69 -53 0
+22 9 77 0
+21 62 -61 0
+-83 42 16 0
+-70 71 65 0
+-45 -12 -16 0
+-78 12 88 0
+-95 -58 -66 0
+29 -57 35 0
+70 -22 14 0
+-81 25 52 0
+-76 -100 -53 0
+69 47 48 0
+-27 -31 78 0
+5 -44 50 0
+-59 -55 -11 0
+-31 76 -5 0
+-62 -75 -42 0
+-23 -7 -40 0
+88 25 18 0
+-65 61 -3 0
+28 45 -55 0
+-26 -1 58 0
+-30 19 40 0
+-37 -90 45 0
+2 61 7 0
+84 -64 67 0
+-20 -21 5 0
+11 -18 20 0
+71 -22 11 0
+-62 -78 67 0
+89 -66 -55 0
+-24 -82 -65 0
+-11 -87 85 0
+30 -94 16 0
+-6 48 -89 0
+62 -97 57 0
+77 23 -99 0
+-6 -33 54 0
+95 -23 -20 0
+32 73 -37 0
+-10 8 -64 0
+-83 1 86 0
+49 47 41 0
+29 31 56 0
+-37 -72 96 0
+41 -2 -49 0
+-67 51 74 0
+-61 -80 2 0
+-11 -29 91 0
+-95 41 9 0
+9 34 -98 0
+80 -51 -44 0
+-92 62 19 0
+28 54 44 0
+32 -6 -54 0
+-90 -83 19 0
+58 75 -70 0
+-58 -98 -13 0
+92 19 11 0
+49 69 28 0
+88 -99 -84 0
+-27 43 -54 0
+-48 -1 58 0
+17 70 68 0
+-49 -54 -73 0
+-77 44 -80 0
+-40 -77 -8 0
+54 -20 52 0
+60 96 98 0
+32 71 56 0
+-85 -22 55 0
+28 22 -81 0
+85 -68 -72 0
+-64 -39 -46 0
+64 97 -38 0
+-31 85 -5 0
+-89 76 8 0
+-22 95 -90 0
+-43 -95 -7 0
+-56 20 -70 0
+-76 -69 54 0
+-67 43 -77 0
+-96 33 82 0
+-54 -67 -7 0
+32 10 82 0
+71 -79 90 0
+-26 -86 -2 0
+-96 -30 -70 0
+-35 -21 -89 0
+26 -86 -33 0
+97 67 -43 0
+46 -51 -72 0
+36 47 -98 0
+-88 -63 72 0
+-27 82 32 0
+-14 6 86 0
+43 72 63 0
+-82 -55 -60 0
+31 48 50 0
+-50 51 -88 0
+-1 24 -87 0
+22 98 -60 0
+-17 71 33 0
+27 79 -71 0
+-78 -53 -64 0
+-60 -86 46 0
+87 -83 -4 0
+38 70 10 0
+-61 -80 -1 0
+68 -34 -41 0
+86 83 59 0
+-75 -34 27 0
+-55 93 -96 0
+-94 -87 -75 0
+72 -44 -91 0
+-11 -56 69 0
+13 62 49 0
+-64 -94 95 0
+55 51 -8 0
+-86 17 -28 0
+63 39 53 0
+-47 -20 100 0
+-98 -22 -33 0
+14 -35 -41 0
+5 50 2 0
+-30 88 -69 0
+22 -65 -95 0
+-61 57 -74 0
+83 -62 -88 0
+9 88 1 0
+40 50 13 0
+-84 -53 -95 0
+31 35 -11 0
+58 10 21 0
+-97 40 92 0
+23 -90 -61 0
+-66 -81 46 0
+15 -89 -54 0
+84 -51 90 0
+-9 -93 62 0
+-11 13 -1 0
+64 -14 79 0
+-29 89 26 0
+-63 98 -69 0
+74 11 58 0
+46 -21 61 0
+44 -56 -23 0
+-60 -94 -86 0
+-4 -39 -97 0
+-38 -65 9 0
+43 -45 39 0
+12 -34 -86 0
+31 16 44 0
+17 -5 -59 0
+12 15 21 0
+-53 58 78 0
+67 81 94 0
+32 -53 88 0
+-65 59 66 0
+90 -51 31 0
+50 -13 2 0
+36 -30 -29 0
+68 -19 -59 0
+-80 -31 32 0
+-47 -17 79 0
+6 -90 -24 0
+-68 93 -2 0
+68 97 -87 0
+93 92 -89 0
+-73 -96 71 0
+-73 -58 -37 0
+-67 -58 88 0
+36 23 13 0
+-81 -42 -16 0
+-24 -39 60 0
+-42 -61 -68 0
+-74 -23 -16 0
+-77 26 93 0
+13 -28 84 0
+-93 21 -88 0
+62 57 -36 0
+88 -9 15 0
+-74 47 -31 0
+-8 -48 7 0
+41 68 23 0
+4 82 94 0
+31 99 38 0
+-50 77 -54 0
+-59 51 37 0
+-68 82 -81 0
+28 -13 -81 0
+-51 83 -91 0
+96 -77 69 0
+-38 -17 62 0
+-88 49 -85 0
+68 -67 -6 0
+40 -39 30 0
+-23 43 92 0
+-10 -17 -64 0
+72 -47 51 0
+-7 53 50 0
+94 79 46 0
+46 -28 -55 0
+40 -9 -72 0
+70 65 17 0
+65 -10 -54 0
+-22 -58 -73 0
+80 -27 5 0
+-90 3 13 0
+31 -76 -70 0
+49 -62 83 0
+-97 -98 -4 0
+46 -45 -11 0
+-54 68 -77 0
+72 60 -59 0
+-15 -55 -17 0
+43 54 -91 0
+30 67 -100 0
+-14 71 -47 0
+73 7 36 0
+86 -63 -97 0
+-96 2 7 0
+43 77 96 0
+-21 30 83 0
+-43 92 -26 0
+20 8 -36 0
+-70 -6 96 0
+-5 -35 21 0
+-13 -98 -67 0
+13 -7 -77 0
+11 4 7 0
+40 -89 22 0
+-80 -70 49 0
+37 -82 -23 0
+-90 89 -94 0
+-65 -37 82 0
+87 -22 -90 0
+-24 37 -25 0
+97 -74 -76 0
+-6 66 -40 0
+-76 -97 -2 0
+59 -54 -6 0
+4 -87 100 0
+-22 -55 -10 0
+-49 -79 -52 0
+-55 53 80 0
+40 69 -1 0
+8 20 50 0
+-44 -70 62 0
+-40 15 -14 0
+-76 58 -43 0
+2 -53 22 0
+66 6 59 0
+-23 57 75 0
+20 50 -56 0
+-23 -17 16 0
+19 -74 -82 0
+79 -42 -84 0
+42 -80 -53 0
+58 84 -13 0
+-72 39 71 0
+-16 -23 -15 0
+-76 -41 -32 0
+55 20 68 0
+-71 93 15 0
+37 -77 -69 0
+-50 -79 -95 0
+-55 51 -98 0
+74 -65 94 0
+-72 43 22 0
+-16 -63 -3 0
+56 -19 45 0
+7 38 -71 0
+-80 97 46 0
+3 -9 -60 0
+-51 -11 48 0
+-20 -50 37 0
+-84 7 -57 0
+-36 -90 76 0
+-98 -66 22 0
+-43 -41 27 0
+8 -14 -70 0
+63 62 -76 0
+-98 52 76 0
+86 -29 -4 0
+23 28 34 0
+69 -26 42 0
+-7 31 -81 0
+68 47 -48 0
+-83 5 -7 0
+80 -33 21 0
+-41 -50 64 0
+-1 -94 63 0
+77 -44 -60 0
+3 -70 -84 0
+1 36 28 0
+60 -89 58 0
+55 -71 38 0
+-30 -27 56 0
+-68 -53 -12 0
+-46 -63 -3 0
+81 -43 39 0
+81 20 79 0
+-31 -68 56 0
+29 -24 59 0
+8 -20 -82 0
+-61 72 -8 0
+-8 90 93 0
+-16 38 -97 0
+-77 -52 -35 0
+100 -72 37 0
+-70 35 -9 0
+-76 34 73 0
+78 79 -99 0
+-26 54 -29 0
+-15 -45 52 0
+-52 -23 -49 0
+41 67 -26 0
+16 -7 45 0
+-66 80 100 0
+75 55 90 0
+-40 57 -66 0
+81 -57 -24 0
+72 -85 59 0
+-63 -64 93 0
+-7 -33 -88 0
+39 -97 -49 0
+-61 -65 -21 0
+-36 -42 -75 0
+-7 -20 -37 0
+32 -88 -27 0
+-12 23 -80 0
+25 -88 -29 0
+36 8 -40 0
+83 9 -18 0
+13 -40 -86 0
+23 70 92 0
+-67 -54 -7 0
+94 35 -86 0
+31 26 96 0
+47 -57 44 0
+-2 19 72 0
+13 -88 -55 0
+-97 77 88 0
+-70 -41 58 0
+69 -35 -59 0
+-14 -69 -74 0
+87 -74 -83 0
+-95 -90 -42 0
+-15 42 -93 0
+74 -75 -15 0
+-87 -100 50 0
+55 71 -86 0
+3 -7 68 0
+-96 -5 -81 0
+-68 -50 62 0
+64 69 48 0
+25 83 3 0
+-88 22 -56 0
+62 -15 -75 0
+-17 41 -23 0
+-64 92 18 0
+2 3 -52 0
+-100 45 -88 0
+49 72 14 0
+84 38 -46 0
+-76 -1 -60 0
+-42 -80 83 0
+61 92 -50 0
+-47 96 -31 0
+64 2 88 0
+78 -84 26 0
+18 19 -82 0
+-6 73 65 0
+15 66 6 0
+-97 -90 26 0
+9 76 -17 0
+37 31 11 0
+-92 -37 95 0
+-67 -7 81 0
+96 48 -95 0
+-54 -41 -70 0
+-63 12 13 0
+-97 -21 -80 0
+-6 43 78 0
+-92 10 78 0
+80 -85 50 0
+32 -18 -36 0
+-89 -88 -86 0
+40 -85 5 0
+47 63 -29 0
+-33 -29 -44 0
+7 -10 16 0
+-6 43 -95 0
+-54 -50 59 0
+77 14 91 0
+65 -70 69 0
+6 -57 56 0
+29 -5 -53 0
+-98 49 -12 0
+-85 -83 92 0
+-16 -53 98 0
+-30 -66 5 0
+96 16 8 0
+11 -37 -52 0
+-1 -78 41 0
+20 -69 81 0
+-65 -82 -6 0
+-73 64 9 0
+83 22 -85 0
+92 44 54 0
+61 -55 75 0
+-81 36 -9 0
+
+"""
+solve_dimacs_cnf(dimacs_text)
 
 
-# --- Main Entry Point ---
-# Random CNF Generator
+
+
+'''
+# --- Optional: Random CNF generator ---
 def generate_random_3sat(num_vars=50, num_clauses=200):
     clauses = []
     for _ in range(num_clauses):
@@ -224,7 +612,10 @@ def generate_random_3sat(num_vars=50, num_clauses=200):
             clause.add(lit)
         clauses.append(" ".join(map(str, clause)) + " 0")
     header = f"p cnf {num_vars} {num_clauses}"
-    return "\n".join(["c Random 3-SAT benchmark"] + [header] + clauses)
+    return "\n".join(["c Random 3-SAT benchmark", header] + clauses)
+
+# --- Main Entry Point ---
+    
 
 if __name__ == "__main__":
     start = time.time()
@@ -238,10 +629,10 @@ if __name__ == "__main__":
             dimacs_text = f.read()
     else:
         print("[Info] Using random generated variables, no CNF file")
-        dimacs_text = generate_random_3sat(200, 800)
+        dimacs_text = generate_random_3sat(50, 200)
 
     solve_dimacs_cnf(dimacs_text)
 
     end = time.time()
     print(f"Runtime: {end - start:.6f} seconds")
-
+'''
