@@ -30,18 +30,18 @@ In addition, this repo includes a sat test script that allows you to automatical
 ## How to Use
 1. Ensure Python is installed
 2. Run SAT Solver. Specify the specific DIMACS CNF file as shown. Replace "example" with actual CNF file. 
-      - python sat_solver_h_MOM.py example.cnf
+      - **python sat_solver_h_MOM.py example.cnf**
 4. If wanting to solve a random 3-SAT problem without a cnf, you do not need to include the cnf.
-     - python sat_solver_h_MOM.py example.cnf
+     - **python sat_solver_h_MOM.py example.cnf**
 6. If wanted to perform further performance analysis, use the benchmark sat test script. This script can be run using the following command. Make sure to set the values at the top of the script as shown as well.
-    - python sat_test_script.py
+    - **python sat_test_script.py**
     <br> 
     test_folder = 'UUF50.218.1000'   # Your test CNF folder  <br> 
     correct_result = 'SAT'           # Expected result for all test files  <br> 
     test_solver = 'sat_solver_h_MOM.py'  <br> 
 
 ## DIMACS Format Example
-A valid CNF file in DIMACS format might look like this:
+A valid CNF file in DIMACS format might look like this:  <br>
 c This is a comment <br>
 p cnf 3 2 <br> 
 1 -3 0  <br> 
