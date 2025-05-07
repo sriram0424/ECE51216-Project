@@ -35,18 +35,18 @@ In addition, this repo includes a sat test script that allows you to automatical
      - python sat_solver_h_MOM.py example.cnf
 6. If wanted to perform further performance analysis, use the benchmark sat test script. This script can be run using the following command. Make sure to set the values at the top of the script as shown as well.
     - python sat_test_script.py
-   
-   - test_folder = 'UUF50.218.1000'   # Your test CNF folder
-   - correct_result = 'SAT'           # Expected result for all test files
-  -  test_solver = 'sat_solver_h_MOM.py'
+    <br> 
+    test_folder = 'UUF50.218.1000'   # Your test CNF folder  <br> 
+    correct_result = 'SAT'           # Expected result for all test files  <br> 
+    test_solver = 'sat_solver_h_MOM.py'  <br> 
 
 ## DIMACS Format Example
 A valid CNF file in DIMACS format might look like this:
 c This is a comment <br>
-p cnf 3 2<br> 
-1 -3 0
-2 3 -1 0
-
+p cnf 3 2 <br> 
+1 -3 0  <br> 
+2 3 -1 0  <br> 
+ 
 ## Example Benchmark Output
 There were 100 cases tested
 The average_runtime was 0.05341
