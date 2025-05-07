@@ -1,6 +1,6 @@
 # ECE51216 Project: DPLL SAT Solver with Advanced Heursitics. 
 
-This repository contains an implementation of a Conflict-Driven Clause Learning (CDCL) SAT solver written in Python. The solver supports solving CNF formulas in DIMACS format, using modern DPLL-based techniques such as:
+This repository contains an implementation of a Conflict-Driven Clause Learning (CDCL) SAT solver written in Python as part of the Purdue University ECE51216 Final Project. The solver supports solving CNF formulas in DIMACS format, using modern DPLL-based techniques such as:
 - Unit propagation
 - Clause simplification
 - MOM (Maximum Occurrence in clauses of Minimum size) heuristic
