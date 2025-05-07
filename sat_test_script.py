@@ -4,7 +4,7 @@ import time
 
 test_folder = 'UUF50.218.1000'
 correct_result = 'SAT'
-test_solver = 'sat_solver_without_heuristics.py'
+test_solver = 'sat_solver_h_MOM.py'
 
 folder = Path(test_folder)
 
