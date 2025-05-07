@@ -29,10 +29,15 @@ In addition, this repo includes a sat test script that allows you to automatical
     -   Files with incorrect results
 ## How to Use
 1. Ensure Python is installed
-2. Run SAT Solver. Specify the specific DIMACS CNF file as shown. Replace "example" with actual CNF file. 
+2. The python script can be run from the command window. To run the SAT Solver, specify the specific DIMACS CNF file as shown. Replace "example" with actual CNF file. 
       - **python sat_solver_h_MOM.py example.cnf**
-4. If wanting to solve a random 3-SAT problem without a cnf, you do not need to include the cnf.
+3. If example DIMACS CNF files are not specified, the script will create a random 3-SAT problem, that it will then use to compute the result
      - **python sat_solver_h_MOM.py example.cnf**
+4. After running the command above, the RESULT, ASSIGNMENT of variables, and runtime will be outputed. An example of this is shown below.  <br>
+Input: python sat_solver_h_MOM.py uf50-0998.cnf  <br>
+RESULT:SAT  <br>
+ASSIGNMENT:1=0 2=1 3=1 4=0 5=0 6=1 7=1 8=0 9=1 10=1 11=0 12=0 13=1 14=1 15=0 16=1 17=0 18=1 19=1 20=0 21=1 22=0 23=0 24=0 25=1 26=0 27=0 28=1 29=1 30=1 31=1 32=1 33=0 34=0 35=1 36=0 37=0 38=1 39=0 40=1 41=0 42=0 43=1 44=0 45=0 46=1 47=1 48=1 49=1 50=0  <br>
+Runtime: 0.032429 seconds   <br> <br>
 6. If wanted to perform further performance analysis, use the benchmark sat test script. This script can be run using the following command. Make sure to set the values at the top of the script as shown as well.
     - **python sat_test_script.py**
     <br>
@@ -52,6 +57,8 @@ p cnf 3 2 <br>
  
 ## Example Benchmark Output
 <br>
+This is an example output if the benchmark script was run. This script was mainly used for testing, comparing runtimes, and ensuring that the right output is outputed based on the input data set. <br>
+
 There were 100 cases tested <br>
 The average_runtime was 0.05341 <br>
 The highest runtime was 0.08431 <br>
