@@ -10,7 +10,7 @@ This repository contains an implementation of a Conflict-Driven Clause Learning 
 In addition, this repo includes a sat test script that allows you to automatically test your SAT solver against a folder of .cnf files and evaluate its correctness and runtime performance. 
 
 ## Features
-**SAT Solver (sat_solver_h_MOM.py)
+### SAT Solver (sat_solver_h_MOM.py)
 - DIMACS parser: Reads CNF files in standard SAT format.
 - Unit propagation: Simplifies the clause set by propagating unit clauses.
 - Heuristic-based decision making: MOM heuristic is used to decide which literal to branch on.
