@@ -50,8 +50,8 @@ Runtime: 0.032429 seconds   <br> <br>
     test_solver = 'sat_solver_h_MOM.py'  <br> 
 
 
+##Examples
 *Some other useful information/ example outputs are included below.*
-
 ## Example DIMACS Format 
 A valid CNF file in DIMACS format might look like this:  <br>
 <br>
