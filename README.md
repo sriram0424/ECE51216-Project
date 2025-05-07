@@ -15,7 +15,7 @@ In addition, this repo includes a sat test script that allows you to automatical
 ├── UUF50.218.1000/            *# Example folder containing CNF benchmarks*  <br> 
 └── README.md                  *# This file* <br> 
 
-## Features
+## Key Features
 ### SAT Solver (sat_solver_h_MOM.py)
 - DIMACS parser: Reads CNF files in standard SAT format.
 - Unit propagation: Simplifies the clause set by propagating unit clauses.
