@@ -53,7 +53,7 @@ Runtime: 0.032429 seconds   <br> <br>
 ##Examples
 *Some other useful information/ example outputs are included below.*
 ## Example DIMACS Format 
-A valid CNF file in DIMACS format might look like this:  <br>
+The SAT solver accepts CNF files in DIMCAC format. A valid CNF file in DIMACS format might look like this:  <br>
 <br>
 c This is a comment <br>
 p cnf 3 2 <br> 
