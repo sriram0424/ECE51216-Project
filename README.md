@@ -58,7 +58,7 @@ Runtime: 0.032429 seconds   <br> <br>
 
 ## Examples
 *Some other useful information/ example outputs are included below.*
-## Example DIMACS Format 
+### Example DIMACS Format 
 The SAT solver accepts CNF files in DIMCAC format. A valid CNF file in DIMACS format might look like this:  <br>
 <br>
 c This is a comment <br>
@@ -66,7 +66,7 @@ p cnf 3 2 <br>
 1 -3 0  <br> 
 2 3 -1 0  <br> 
  
-## Example Benchmark Output
+### Example Benchmark Output
 <br>
 This is an example output if the benchmark script was run. This script was mainly used for testing, comparing runtimes, and ensuring that the right output is outputed based on the input data set. <br>
 
@@ -76,7 +76,7 @@ The highest runtime was 0.08431 <br>
 The lowest runtime was 0.03255 <br> 
 All cases produced correct output <br>
 
-## Full Example of sat_solver_h_MOM.py running on Command Prompt
+### Full Example of sat_solver_h_MOM.py running on Command Prompt
 Here is a summarized image of the basic commands for running the SAT solver as described above
 ![image](https://github.com/user-attachments/assets/ab5ac0de-052d-438f-b2e0-f272c8a339e7)
    
