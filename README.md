@@ -42,8 +42,8 @@ In addition, this repo includes a sat test script that allows you to automatical
 
 ## DIMACS Format Example
 A valid CNF file in DIMACS format might look like this:
-c This is a comment
-p cnf 3 2
+c This is a comment <br>
+p cnf 3 2<br> 
 1 -3 0
 2 3 -1 0
 
