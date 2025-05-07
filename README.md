@@ -72,3 +72,5 @@ Here is a summarized image of the basic commands for running the SAT solver as d
 ![image](https://github.com/user-attachments/assets/ab5ac0de-052d-438f-b2e0-f272c8a339e7)
    
 
+##License
+This project is open-source and available publicly for educational and experimental use
