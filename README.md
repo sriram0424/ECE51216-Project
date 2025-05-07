@@ -18,7 +18,7 @@ In addition, this repo includes a sat test script that allows you to automatical
 - Non-chronological backtracking: Jumps back to the second-highest decision level upon conflict.
 - Random CNF generation: If no CNF file is provided, a 3-SAT instance is randomly generated.
 
-###Benchmarking Script (sat_test_script.py)
+### Benchmarking Script (sat_test_script.py)
 - Iterates through a directory of .cnf files
 - Runs the SAT solver on each file
 - Extracts runtime and validates correctness of output
