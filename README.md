@@ -31,8 +31,8 @@ In addition, this repo includes a sat test script that allows you to automatical
 1. Ensure Python is installed
 2. The python script can be run from the command window. To run the SAT Solver, specify the specific DIMACS CNF file as shown. Replace "example" with actual CNF file. 
       - **python sat_solver_h_MOM.py example.cnf**
-3. If example DIMACS CNF files are not specified, the script will create a random 3-SAT problem, that it will then use to compute the result
-     - **python sat_solver_h_MOM.py example.cnf**
+3. If example DIMACS CNF files are not specified, the script will create a random 3-SAT problem, that it will then use to compute the result. If this is done, the output will let the user know this by first outputting: [Info] Using random generated variables, no CNF file. 
+     - **python sat_solver_h_MOM.py **
 4. After running the command above, the RESULT, ASSIGNMENT of variables, and runtime will be outputed. An example of this is shown below.  <br>
 <br>Input: python sat_solver_h_MOM.py uf50-0998.cnf  <br>
 RESULT:SAT  <br>
