@@ -34,11 +34,11 @@ In addition, this repo includes a sat test script that allows you to automatical
 4. If wanting to solve a random 3-SAT problem without a cnf, you do not need to include the cnf.
      - python sat_solver_h_MOM.py example.cnf
 6. If wanted to perform further performance analysis, use the benchmark sat test script. This script can be run using the following command. Make sure to set the values at the top of the script as shown as well.
-    - command: python sat_test_script.py
+    - python sat_test_script.py
    
-   test_folder = 'UUF50.218.1000'   # Your test CNF folder
-   correct_result = 'SAT'           # Expected result for all test files
-   test_solver = 'sat_solver_h_MOM.py'
+   - test_folder = 'UUF50.218.1000'   # Your test CNF folder
+   - correct_result = 'SAT'           # Expected result for all test files
+  -  test_solver = 'sat_solver_h_MOM.py'
 
 ## DIMACS Format Example
 A valid CNF file in DIMACS format might look like this:
