@@ -35,7 +35,9 @@ In addition, this repo includes a sat test script that allows you to automatical
      - **python sat_solver_h_MOM.py example.cnf**
 6. If wanted to perform further performance analysis, use the benchmark sat test script. This script can be run using the following command. Make sure to set the values at the top of the script as shown as well.
     - **python sat_test_script.py**
-    <br> 
+    <br>
+    
+    Note: In order to use the benchmark script, the following parameters need to be updated in the script.
     test_folder = 'UUF50.218.1000'   # Your test CNF folder  <br> 
     correct_result = 'SAT'           # Expected result for all test files  <br> 
     test_solver = 'sat_solver_h_MOM.py'  <br> 
