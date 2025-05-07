@@ -46,7 +46,7 @@ python sat_solver_h_MOM.py uf50-0998.cnf  <br><br>
 RESULT:SAT  <br>
 ASSIGNMENT:1=0 2=1 3=1 4=0 5=0 6=1 7=1 8=0 9=1 10=1 11=0 12=0 13=1 14=1 15=0 16=1 17=0 18=1 19=1 20=0 21=1 22=0 23=0 24=0 25=1 26=0 27=0 28=1 29=1 30=1 31=1 32=1 33=0 34=0 35=1 36=0 37=0 38=1 39=0 40=1 41=0 42=0 43=1 44=0 45=0 46=1 47=1 48=1 49=1 50=0  <br>
 Runtime: 0.032429 seconds   <br> <br>
-5. This step is not required to use the SAR solver, but if additional validation testing needs to be done. If wanted to perform further performance testing analysis, use the benchmark sat test script. This script can be run using the following command. Make sure to set the values at the top of the script manually before running as shown.
+5. This step is not required to use the SAT solver, but if additional validation testing needs to be done. If wanted to perform further performance testing analysis, use the benchmark sat test script. This script can be run using the following command. Make sure to set the values at the top of the script manually before running as shown.
     - **python sat_test_script.py**
     <br>
     
