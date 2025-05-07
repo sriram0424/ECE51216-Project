@@ -44,7 +44,7 @@ Runtime: 0.032429 seconds   <br> <br>
     - **python sat_test_script.py**
     <br>
     
-    Note: In order to use the benchmark script, the following parameters need to be updated in the script.
+    Note: In order to use the benchmark script, the following parameters need to be updated in the script.  <br> 
     test_folder = 'UUF50.218.1000'   # Your test CNF folder  <br> 
     correct_result = 'SAT'           # Expected result for all test files  <br> 
     test_solver = 'sat_solver_h_MOM.py'  <br> 
