@@ -49,11 +49,12 @@ p cnf 3 2 <br>
 2 3 -1 0  <br> 
  
 ## Example Benchmark Output
-There were 100 cases tested
-The average_runtime was 0.05341
-The highest runtime was 0.08431
-The lowest runtime was 0.03255
-All cases produced correct output
+<br>
+There were 100 cases tested <br>
+The average_runtime was 0.05341 <br>
+The highest runtime was 0.08431 <br>
+The lowest runtime was 0.03255 <br> 
+All cases produced correct output <br>
 
 ## Example of sat_solver_h_MOM.py running on Command Prompt
 ![image](https://github.com/user-attachments/assets/ab5ac0de-052d-438f-b2e0-f272c8a339e7)
