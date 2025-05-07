@@ -9,7 +9,7 @@ This repository contains an implementation of a Conflict-Driven Clause Learning 
 
 In addition, this repo includes a sat test script that allows you to automatically test your SAT solver against a folder of .cnf files and evaluate its correctness and runtime performance. 
 ## Repository Structure 
-├── sat_solver_h_MOM.py        *# DPLL SAT solver using heuristics* <br> 
+├── sat_solver_h_MOM.py         *# DPLL SAT solver using heuristics* <br> 
 ├── sat_solver_without_heuristics.py        *# SAT solver using DPLL without heuristics* <br> 
 ├── sat_test_script.py        *# Script to test solver on a batch of CNF files* <br> 
 ├── UUF50.218.1000/            *# Example folder containing CNF benchmarks*  <br> 
