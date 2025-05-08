@@ -146,9 +146,9 @@ def analyze_conflict(decision_stack):
 
 
 def backtrack(decision_stack, assignment, decision_levels, learned_clause):
-     """Decides how far to backtrack based on the decision levels of the literals 
-     present in the learned clause. The function jumps back to the second-highest 
-     level from where an issue has occurred.
+    """Decides how far to backtrack based on the decision levels of the literals 
+    present in the learned clause. The function jumps back to the second-highest 
+    level from where an issue has occurred.
     
     Parameters:
       decision_stack: The stack of free decisions.
