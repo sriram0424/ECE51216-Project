@@ -4,7 +4,7 @@ import random
 import os
 
 # Program description: This program implements a SAT solver using the dpll algorithm.
-# It takes a cnf formula and prints if it is SAT or UNSAT.
+# It takes a formula in cnf format and prints if it is SAT or UNSAT.
 # If it is SAT, the assignments of the varibles are printed. 
 
 
