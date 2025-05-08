@@ -93,6 +93,16 @@ def simplify(clauses, lit):
 literal to branch on"""
 
 def decide_literal(clauses, assignment):
+    """Implements the MOM (Maximum Occurrence of clauses of Minimum size) heuristic
+    to decide the literal to branch on.
+    
+    Parameters:
+      clauses: A list of lists that represents the current state of the cnf formula.
+      assignment: A set showing the variables that have been currently assigned.
+      
+    Returns:
+      lit_choice: The chosen literal to branch on.
+    """
     literal_assignments = [abs(l) for l in assignment]
     min_size = min((len(c) for c in clauses if c), default=0)
     counts = {}
