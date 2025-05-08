@@ -3,6 +3,9 @@ from pathlib import Path
 import time
 
 # Configurations
+# Change test_folder to the folder with the files in cnf format used for testing
+# Change correct_result to SAT or UNSAT. All files in the folder should have the same satisfiability
+# Change test_solver to the file name of the sat solver being tested
 test_folder = 'UUF50.218.1000'
 correct_result = 'SAT'
 test_solver = 'sat_solver_h_MOM.py'
