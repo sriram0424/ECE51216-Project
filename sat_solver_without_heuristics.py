@@ -3,8 +3,22 @@ import time
 import random
 import os
 
-# Parser for DIMACS input
+# Program description: This program takes a cnf formula and prints if it is SAT or UNSAT.
+# If it is SAT, the assignments of the varibles are printed. 
+# A basic dpll algorithm is used for this purpose.
+
+
+
 def parse_dimacs(file_content):
+    """Parser for DIMACS input
+
+    Parameters:
+      file_content: The content of the cnf file.
+
+    Returns:
+      clauses: A list of lists that represents the cnf formula.
+      num_vars: The number of variables in the cnf formula.
+    """
     clauses = []
     num_vars = 0
     for line in file_content.strip().split('\n'):
@@ -20,8 +34,19 @@ def parse_dimacs(file_content):
             clauses.append(clause)
     return clauses, num_vars
 
-# Unit Propagation (simplifies unit clauses with only one literal)
+
 def unit_propagate(clauses, assignment):
+     """Implements unit propagation. This simplifies the unit clauses by
+     assigning unate clauses to true.
+
+    Parameters:
+      clauses: A list of lists that represents the current state of the cnf formula.
+      assignment: A set showing the variables that have been currently assigned.
+      
+    Returns:
+      clauses: A list of lists that represents the cnf formula. 
+      assignment: A set showing the variables that have been currently assigned.
+    """
     changed = True
     while changed:
         changed = False
@@ -38,8 +63,19 @@ def unit_propagate(clauses, assignment):
                     return None
     return clauses, assignment
 
-# Clause Simplifciation (once literal assigned to true, removes clauses already assigned)
+
 def simplify(clauses, lit):
+    """Implements clause simplification. Once a literal is assigned to true, 
+    the clauses already assigned are removed.
+
+    Parameters:
+      clauses: A list of lists that represents the current state of the cnf formula.
+      lit: The literal being simplified.
+      
+    Returns:
+      new_clauses: A list of lists without the clauses that contain the literal
+      and with all instances of the complement of the variable removed.
+    """
     new_clauses = []
     for clause in clauses:
         if lit in clause:
@@ -55,6 +91,16 @@ def simplify(clauses, lit):
 
 # Pure Literal Elimination (safely assigns pure literals to true)
 def find_pure_literals(clauses):
+    """Implements pure literal elimination. Pure literals are assigned to true.
+    Pure literals are those that occur only in complemented or only in 
+    uncomplemented form.
+    
+    Parameters:
+      clauses: A list of lists that represents the current state of the cnf formula.
+      
+    Returns:
+      pure: The of pure literals
+    """
     counts = {}
     for clause in clauses:
         for lit in clause:
@@ -65,8 +111,18 @@ def find_pure_literals(clauses):
             pure.add(lit)
     return pure
 
-# DPLL Clauses
+
 def dpll(clauses, assignment):
+    """Implements the dpll algorithm.
+    
+    Parameters:
+      clauses: A list of lists that represents the current state of the cnf formula.
+      assignment: A set showing the variables that have been currently assigned.
+      
+    Returns:
+      assignment: A set showing the variables that satisfy the cnf formula.
+      If none is returned, then the formula is UNSAT.
+    """
     result = unit_propagate(clauses, assignment)
     if result is None:
         return None
@@ -96,8 +152,16 @@ def dpll(clauses, assignment):
                 return None
     return assignment
 
-# Solver Logic
+
 def solve_dimacs_cnf(dimacs_text):
+    """Solver logic
+    
+    Parameters:
+      dimacs_text: The content of the cnf file.
+      
+    Returns:
+      None
+    """
     clauses, num_vars = parse_dimacs(dimacs_text)
     result = dpll(clauses, set())
     if result is None:
