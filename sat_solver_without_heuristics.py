@@ -37,8 +37,8 @@ def parse_dimacs(file_content):
 
 
 def unit_propagate(clauses, assignment):
-     """Implements unit propagation. This simplifies the unit clauses by
-     assigning unate clauses to true.
+    """Implements unit propagation. This simplifies the unit clauses by
+    assigning unate clauses to true.
 
     Parameters:
       clauses: A list of lists that represents the current state of the cnf formula.
