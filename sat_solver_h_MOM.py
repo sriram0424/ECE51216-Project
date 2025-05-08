@@ -9,10 +9,16 @@ import os
 # If it is SAT, the assignments of the varibles are printed. 
 
 
-
-# Parser for DIMACS input
-
 def parse_dimacs(file_content):
+    """Parser for DIMACS input
+
+    Parameters:
+      file_content: The content of the cnf file.
+
+    Returns:
+      clauses: A list of lists that represents the cnf formula.
+      num_vars: The number of variables in the cnf formula.
+    """
     clauses = []
     num_vars = 0
     for line in file_content.strip().split('\n'):
@@ -29,9 +35,18 @@ def parse_dimacs(file_content):
     return clauses, num_vars
 
 
-# Unit Propagation (simplifies unit clauses with only one literal)
-
 def unit_propagate(clauses, assignment):
+    """Implements unit propagation. This simplifies the unit clauses by
+     assigning unate clauses to true.
+
+    Parameters:
+      clauses: A list of lists that represents the current state of the cnf formula.
+      assignment: A set showing the variables that have been currently assigned.
+
+    Returns:
+      clauses: A list of lists that represents the cnf formula.
+      assignment: A set showing the variables that have been currently assigned.
+    """
     while True:
         unit_clauses = [c for c in clauses if len(c) == 1]
         if not unit_clauses:
@@ -47,8 +62,18 @@ def unit_propagate(clauses, assignment):
     return clauses, assignment
 
 
-# Clause Simplifciation (once literal assigned to true, removes clauses already assigned)
 def simplify(clauses, lit):
+    """Implements clause simplification. Once a literal is assigned to true, 
+    the clauses already assigned are removed.
+
+    Parameters:
+      clauses: A list of lists that represents the current state of the cnf formula.
+      lit: The literal being simplified.
+      
+    Returns:
+      new_clauses: A list of lists without the clauses that contain the literal
+      and with all instances of the complement of the variable removed.
+    """
     new_clauses = []
     for clause in clauses:
         if lit in clause:
@@ -85,7 +110,6 @@ def decide_literal(clauses, assignment):
 
     if not counts:
         return None
-
 
     vars = [abs(lit) for lit in counts]
     score_vals = []
@@ -124,9 +148,23 @@ def backtrack(decision_stack, assignment, decision_levels, learned_clause):
 
 def dpll_cdcl(clauses, assignment, decision_stack=[], decision_levels={}, level=0,
               learned_clauses=set()):
-
-
-
+    """Implements the dpll algorithm using a cdcl approach with conflict-driven clause learning,
+    and non-chronological backtracking.
+    
+    Parameters:
+      clauses: A list of lists that represents the current state of the cnf formula.
+      assignment: A set showing the variables that have been currently assigned.
+      decision_stack: A stack of the free decisions made, implemented using a list.
+      decision_levels: A dictionary that shows the decsion level where each free
+      decision was made.
+      level: An integer that shows the current decision level.
+      learned_clauses: A list of the clauses that have been learned through 
+      conflict-driven learning.
+      
+    Returns:
+      assignment: A set showing the variables that satisfy the cnf formula.
+      If none is returned, then the formula is UNSAT.
+    """
     # Perform unit propagation on the current clause set and assignment
     result = unit_propagate(clauses, assignment.copy())
 
