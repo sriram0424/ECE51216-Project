@@ -78,7 +78,8 @@ All cases produced correct output <br>
 
 ### Full Example of sat_solver_h_MOM.py running on Command Prompt
 Here is a summarized image of the basic commands for running the SAT solver as described above
-![image](https://github.com/user-attachments/assets/ab5ac0de-052d-438f-b2e0-f272c8a339e7)
+![image](https://github.com/user-attachments/assets/de95c6eb-c921-43f8-9911-b87f89620de9)
+
    
 
 ## License
