@@ -1,10 +1,19 @@
+# This program is used to test if a SAT solver works correctly and how efficient it is.
+# The test_folder variable should be changed to the name of the folder, 
+# the correct_result variable should be changed to SAT or UNSAT, and the test_solver variable 
+# should be changed to the file name of the sat solver being tested. All cnf flies in the folder
+# should have the same satisfiability. This program prints the number of cases tested,
+# average runtime, max runtime, min runtime, and any cases that produced an incorrect result.
+
+
 import subprocess
 from pathlib import Path
 import time
 
+
 # Configurations
 # Change test_folder to the folder with the files in cnf format used for testing
-# Change correct_result to SAT or UNSAT. All files in the folder should have the same satisfiability
+# Change correct_result to SAT or UNSAT. 
 # Change test_solver to the file name of the sat solver being tested
 test_folder = 'UUF50.218.1000'
 correct_result = 'SAT'
