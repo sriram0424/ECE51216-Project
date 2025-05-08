@@ -240,8 +240,15 @@ def dpll_cdcl(clauses, assignment, decision_stack=[], decision_levels={}, level=
     return assignment
 
 
-# Solving dimacs formatted input
 def solve_dimacs_cnf(dimacs_text):
+    """Solving dimacs formatted input
+    
+    Parameters:
+      dimacs_text: The content of the cnf file.
+      
+    Returns:
+      None
+    """
     clauses, num_vars = parse_dimacs(dimacs_text)
     result = dpll_cdcl(clauses, set())
     if result is None:
