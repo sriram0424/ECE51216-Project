@@ -1,12 +1,13 @@
-import sys
-import time
-import random
-import os
-
 # Program description: This program implements a SAT solver using dpll and heuristics.
 # Heuristics used are conflict driven learning, non-chrolological backtracking,
 # and MOM branching. It takes a formula in cnf format and prints if it is SAT or UNSAT.
 # If it is SAT, the assignments of the varibles are printed. 
+
+
+import sys
+import time
+import random
+import os
 
 
 def parse_dimacs(file_content):
@@ -127,6 +128,7 @@ def decide_literal(clauses, assignment):
 
     lit_choice = vars[score_vals.index(max(score_vals))]
     return lit_choice
+
 
 # Conflict Clause analysis and backtracking (heuristics)
 # Pure Literal Elimination from regular DPLL removed due to clause learning implementation
@@ -288,7 +290,6 @@ def solve_dimacs_cnf(dimacs_text):
             value = 1 if var in result else 0
             assignment_output.append(f"{var}={value}")
         print("ASSIGNMENT:" + " ".join(assignment_output))
-
 
 
 # --- Main Entry Point ---
