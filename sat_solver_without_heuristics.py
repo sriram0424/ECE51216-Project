@@ -1,13 +1,12 @@
-import sys
-import time
-import random
-import os
-
 # Program description: This program implements a SAT solver using the dpll algorithm.
 # It takes a formula in cnf format and prints if it is SAT or UNSAT.
 # If it is SAT, the assignments of the varibles are printed. 
 
 
+import sys
+import time
+import random
+import os
 
 
 def parse_dimacs(file_content):
@@ -90,7 +89,7 @@ def simplify(clauses, lit):
             new_clauses.append(clause)
     return new_clauses
 
-# Pure Literal Elimination (safely assigns pure literals to true)
+
 def find_pure_literals(clauses):
     """Implements pure literal elimination. Pure literals are assigned to true.
     Pure literals are those that occur only in complemented or only in 
