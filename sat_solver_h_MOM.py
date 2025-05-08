@@ -88,10 +88,6 @@ def simplify(clauses, lit):
     return new_clauses
 
 
-
-"""Implements the MOM (Maximum Occurrence of clauses of Minimum size) heuristic to decide the 
-literal to branch on"""
-
 def decide_literal(clauses, assignment):
     """Implements the MOM (Maximum Occurrence of clauses of Minimum size) heuristic
     to decide the literal to branch on.
@@ -136,12 +132,34 @@ def decide_literal(clauses, assignment):
 # Pure Literal Elimination from regular DPLL removed due to clause learning implementation
 
 def analyze_conflict(decision_stack):
+    """Conflict analysis to compute the learned clause.
+    
+    Parameters:
+      decision_stack: The stack of free decisions.
+      
+    Returns:
+      The learned clause from the conflict.
+    """
     if decision_stack:
         return [-decision_stack[-1]]  # Block last decision
     return []
 
 
 def backtrack(decision_stack, assignment, decision_levels, learned_clause):
+     """Decides how far to backtrack based on the decision levels of the literals 
+     present in the learned clause. The function jumps back to the second-highest 
+     level from where an issue has occurred.
+    
+    Parameters:
+      decision_stack: The stack of free decisions.
+      assignment: A set showing the variables that have been currently assigned.
+      decision_levels: A dictionary that shows the decsion level where each free
+      decision was made.
+      learned_clause: The clause learned from conflict analysis.
+      
+    Returns:
+      The second-highest level from where an issue has occurred.
+    """
     levels = []
     for l in learned_clause:
         level = decision_levels.get(abs(l), 0)
