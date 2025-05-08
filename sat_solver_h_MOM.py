@@ -3,6 +3,12 @@ import time
 import random
 import os
 
+# Program description: This program implements a SAT solver using dpll and heuristics.
+# Heuristics used are conflict driven learning, non-chrolological backtracking,
+# and MOM branching. It takes a formula in cnf format and prints if it is SAT or UNSAT.
+# If it is SAT, the assignments of the varibles are printed. 
+
+
 
 # Parser for DIMACS input
 
