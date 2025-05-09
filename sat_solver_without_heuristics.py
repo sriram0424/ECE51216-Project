@@ -155,7 +155,7 @@ def dpll(clauses, assignment):
 
 
 def solve_dimacs_cnf(dimacs_text):
-    """Solver logic
+    """Solving dimacs formatted input
     
     Parameters:
       dimacs_text: The content of the cnf file.
