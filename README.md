@@ -39,7 +39,7 @@ In addition, this repo includes a sat test script that allows you to automatical
       - **python3 sat_solver_h_MOM.py example.cnf**
 3. If example DIMACS CNF files are not specified, the script will create a random 3-SAT problem and then use to compute the result. If this is done, the output will let the user know this by first outputting: [Info] Using random generated variables, no CNF file. 
      - **python3 sat_solver_h_MOM.py**
-4. After running the command above in Step 2 for a CNF file, the RESULT, ASSIGNMENT of variables, and runtime will be outputed. An example of this is shown below.  <br>
+4. After running the command above in Step 2 for a CNF file, the RESULT, ASSIGNMENT of variables, and runtime will be outputed. An example of this is shown below. If runtime is not outputing make sure it is uncommented  <br>
 <br> *Input:* <br>
 python3 sat_solver_h_MOM.py uf50-0998.cnf  <br><br>
 *Output:*  <br> 
