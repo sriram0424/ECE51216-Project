@@ -11,7 +11,6 @@ import os
 
 
 def parse_dimacs(file_content):
-    
     # Note: ChatGPT was used to assist with parsing of DIMACS CNF file
     """Parser for DIMACS input
 
