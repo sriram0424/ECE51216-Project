@@ -179,7 +179,7 @@ def backtrack(decision_stack, assignment, decision_levels, learned_clause):
 
 def dpll_cdcl(clauses, assignment, decision_stack=[], decision_levels={}, level=0,
               learned_clauses=set()):
-    """Implements the dpll algorithm using a cdcl approach with conflict-driven clause learning,
+    """Implements the dpll algorithm using a cdcl approach with conflict-driven clause learning
     and non-chronological backtracking.
     
     Parameters:
