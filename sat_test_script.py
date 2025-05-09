@@ -1,4 +1,5 @@
 # This program is used to test if a SAT solver works correctly and how efficient it is.
+# To run this test script, the runtime must be uncommented in the sat solver file code.
 # The test_folder variable should be changed to the name of the folder, 
 # the correct_result variable should be changed to SAT or UNSAT, and the test_solver variable 
 # should be changed to the file name of the sat solver being tested. All cnf flies in the folder
@@ -14,7 +15,9 @@ import time
 # Configurations
 test_folder = 'UUF50.218.1000'  # Change to folder with the files in cnf format used for testing
 correct_result = 'UNSAT'  # Change to SAT or UNSAT
-test_solver = 'sat_solver_h_MOM.py' # Change to the file name of the sat solver being tested
+test_solver = 'sat_solver_h_MOM.py' # Change to the file name of the sat solver being tested and uncomment 
+# the runtime in the sat solver code
+
 
 # Initialization
 folder = Path(test_folder)
