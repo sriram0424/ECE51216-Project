@@ -207,5 +207,6 @@ if __name__ == "__main__":
     solve_dimacs_cnf(dimacs_text)
 
     end = time.time()
-    print(f"Runtime: {end - start:.6f} seconds")
+    #Uncomment line below to output runtime
+   # print(f"Runtime: {end - start:.6f} seconds")
 '''
