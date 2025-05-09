@@ -12,12 +12,9 @@ import time
 
 
 # Configurations
-# Change test_folder to the folder with the files in cnf format used for testing
-# Change correct_result to SAT or UNSAT. 
-# Change test_solver to the file name of the sat solver being tested
-test_folder = 'UUF50.218.1000'
-correct_result = 'SAT'
-test_solver = 'sat_solver_h_MOM.py'
+test_folder = 'UUF50.218.1000'  # Change to folder with the files in cnf format used for testing
+correct_result = 'SAT'  # Change to SAT or UNSAT
+test_solver = 'sat_solver_h_MOM.py' # Change to the file name of the sat solver being tested
 
 # Initialization
 folder = Path(test_folder)
