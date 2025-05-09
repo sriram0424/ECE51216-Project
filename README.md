@@ -53,7 +53,7 @@ Runtime: 0.032429 seconds   <br> <br>
     Note: In order to use the benchmark script, the following parameters need to be updated in the script.  <br> 
     test_folder = 'UUF50.218.1000'   *# Your test CNF folder*  <br> 
     correct_result = 'UNSAT'         *# Expected result for all test files*  <br> 
-    test_solver = 'sat_solver_h_MOM.py'  <br> 
+    test_solver = 'sat_solver_h_MOM.py'  #Algorithm file name <br> 
 
 
 ## Examples
