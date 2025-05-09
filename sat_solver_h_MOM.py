@@ -188,7 +188,7 @@ def dpll_cdcl(clauses, assignment, decision_stack=[], decision_levels={}, level=
       decision_levels: A dictionary that shows the decsion level where each free
       decision was made.
       level: An integer that shows the current decision level.
-      learned_clauses: A list of the clauses that have been learned through 
+      learned_clauses: A set of the clauses that have been learned through 
       conflict-driven learning.
       
     Returns:
