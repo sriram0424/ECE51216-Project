@@ -99,7 +99,7 @@ def find_pure_literals(clauses):
       clauses: A list of lists that represents the current state of the cnf formula.
       
     Returns:
-      pure: The of pure literals
+      pure: The set of pure literals
     """
     counts = {}
     for clause in clauses:
