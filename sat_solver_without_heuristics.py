@@ -176,7 +176,7 @@ def solve_dimacs_cnf(dimacs_text):
         print("ASSIGNMENT:" + " ".join(assignment_output))
 
 
-'''
+
 # Random CNF Generator
 def generate_random_3sat(num_vars=50, num_clauses=200):
     clauses = []
@@ -210,4 +210,4 @@ if __name__ == "__main__":
     end = time.time()
     #Uncomment line below to output runtime
     #print(f"Runtime: {end - start:.6f} seconds")
-'''
+
