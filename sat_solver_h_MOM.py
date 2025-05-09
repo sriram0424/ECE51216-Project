@@ -186,7 +186,7 @@ def dpll_cdcl(clauses, assignment, decision_stack=[], decision_levels={}, level=
       clauses: A list of lists that represents the current state of the cnf formula.
       assignment: A set showing the variables that have been currently assigned.
       decision_stack: A stack of the free decisions made, implemented using a list.
-      decision_levels: A dictionary that shows the decsion level where each free
+      decision_levels: A dictionary that shows the decision level where each free
       decision was made.
       level: An integer that shows the current decision level.
       learned_clauses: A set of the clauses that have been learned through 
