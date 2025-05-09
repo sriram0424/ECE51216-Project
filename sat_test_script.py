@@ -16,7 +16,7 @@ import time
 test_folder = 'UUF50.218.1000'  # Change to folder with the files in cnf format used for testing
 correct_result = 'UNSAT'  # Change to SAT or UNSAT
 test_solver = 'sat_solver_h_MOM.py' # Change to the file name of the sat solver being tested and uncomment 
-# the runtime in the sat solver code
+# the runtime in the sat solver code at the bottom of the file
 
 
 # Initialization
