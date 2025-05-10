@@ -24,7 +24,7 @@ def parse_dimacs(file_content):
     num_vars = 0
     for line in file_content.strip().split('\n'):
         line = line.strip()
-        if line == '' or line.startswith('c'):
+        if line == '' or line.startswith('c') or line.startswith('%'):
             continue
         if line.startswith('p'):
             _, _, num_vars, _ = line.split()
